@@ -1,0 +1,55 @@
+order_id,order_date,customer_name,customer_email,product_category,product_name,quantity,unit_price,total_amount,payment_method,shipping_country,order_status
+1001,2025-01-05,Anna Novakova,anna.novakova@email.cz,Electronics,Wireless Mouse,2,25.99,51.98,Credit Card,Czech Republic,Delivered
+1002,01/07/2025,Petr Svoboda,petr.svoboda@mail.com,Office Supplies,A4 Paper Pack,10,4.50,45.00,Bank Transfer,Czech Republic,Delivered
+1003,2025-01-08,,,Furniture,Standing Desk,1,349.00,349.00,Credit Card,,Delivered
+,2025-01-10,Jan Horak,jan.horak@email.com,Electronics,USB-C Hub,3,39.99,119.97,PayPal,Czech Republic,Delivered
+1005,2025/01/12,Eva Prochazkova,eva.proch@gmail.com,Software,Antivirus License,five,29.99,149.95,Credit Card,Czech Republic,Delivered
+1006,2025-01-14, Tomas Dvorak ,tomas.dvorak@company.cz,Office Supplies,Ink Cartridge Set,4,18.75,75.00,Bank Transfer,Poland,delivrd
+1007,2025-01-15,Lucie Maresova,+420777888999,Electronics,Mechanical Keyboard,1,89.99,89.99,Credit Card,,Shipped
+1008,2025-01-17,Karel Jelinek,karel.j@email.cz,Furniture,Ergonomic Chair,2,275.00,550.00,Bank Transfer,Czech Republic,Delivered
+1009,2025-01-19,199.00,hana.nemcova@mail.cz,Software,Project Management Tool,1,Hana Nemcova,199.00,PayPal,Germany,Delivered
+1010,2025-01-20,Martin Pospisil,martin.p@firma.com,Electronics,27-inch Monitor,1,329.00,329.00,,Czech Republic,Delivered
+,,,,,,,,,,,,
+1011,2025-01-22,Veronika Kucerova,veronika.k@email.com,Office Supplies,Whiteboard Markers,12,2.99,35.88,Cash,Czech Republic,Delivered
+1012,24-01-2025,Ondrej Fiala,ondrej.fiala@mail.cz,Electronics,Webcam HD,2,59.99,,Credit Card,Slovakia,Shipped
+1013,2025-01-25,Tereza Sedlackova,tereza.s@company.com,Furniture,Filing Cabinet,1,129.00,129.00,Bank Transfer,Czech Republic,Delivered
+1014,2025-01-27,,michal.r@email.cz,Software,Cloud Storage Plan,3,9.99,29.97,PayPal,Czech Republic,Delivered
+1015,2025-01-29,Barbora Vlkova,barbora.v@gmail.com,Office Supplies,Stapler Heavy Duty,-6,12.50,-75.00,Cash,Poland,Delivered
+1016,2025-02-01,David Cerny,david.cerny@firma.cz,Credit Card,Bluetooth Speaker,4,45.00,180.00,Electronics,Czech Republic,Delivered
+1017,2025-02-03,Klara Benesova,klara.b@email.com,Furniture,Bookshelf Unit,1,189.00,189.00,Bank Transfer,Czech Republic,processing
+1018,,Jakub Kovar,jakub.kovar@mail.cz,Software,Video Editor Pro,2,149.99,299.98,Credit Card,Germany,Delivered
+order_id,order_date,customer_name,customer_email,product_category,product_name,quantity,unit_price,total_amount,payment_method,shipping_country,order_status
+1019,2025-02-06,Simona Havlova,simona.h@inbox.com,Office Supplies,Desk Organizer,3,15.99,47.97,Cash,Czech Republic,Delivered
+1020,2025-02-08,Filip Kratky,filip.k@company.cz,Electronics,External SSD 1TB,2,79.99,159.98,PayPal,Czech Republic,Delivered
+1021,2025-02-10,Alena Valentova,alena.v@email.cz,Furniture,Conference Table,1,599.00,599.00,Bank Transfer,Czech Republic,Shipped
+1022,Feb 12 2025,Radek Blaha,radek.blaha@mail.com,Electronics,Noise-Cancelling Headphones,1,199.00,199.00,Credit Card,Slovakia,Delivered
+1023,2025-02-14,Marketa Stastna,marketa.s@firma.cz,Office Supplies,Label Maker,2,34.99,69.98,Cash,Czech Republic,Delivered
+1024,2025-02-15,Vojtech Kopecky,vojtech.k@email.com,Software,Accounting Software,1,399.00,,Bank Transfer,Czech Republic,Delivered
+1024,2025-02-15,Vojtech Kopecky,vojtech.k@email.com,Software,Accounting Software,1,399.00,,Bank Transfer,Czech Republic,Delivered
+1025,2025-02-17,Ivana Hruska,ivana.h@gmail.com,Electronics,Laptop Stand,5,24.99,124.95,Credit Card,Poland,Delivered
+1026,2025-02-19,Stepan Maly,Czech Republic,Furniture,Desk Lamp LED,3,42.00,126.00,PayPal,stepan.m@company.cz,Delivered
+1027,2025-02-21,Renata Kadlecova,renata.k@mail.cz,Office Supplies,Binder Clips Assorted,20,1.99,39.80,Cash,Czech Republic,
+1028,2025-02-23,Pavel Urban,pavel.urban@email.cz,Electronics,Wireless Charger,4,19.99,79.96,Credit Card,Czech Republic,Shipped
+1029,2025-02-25,Daniela Holubova,daniela.h@firma.com,Software,VPN Subscription,10,5.99,N/A,PayPal,Germany,Delivered
+1030,2025-02-27,Ales Moravec,ales.m@inbox.cz,Furniture,Visitor Chair Set,2,89.00,178.00,Bank Transfer,Czech Republic,Delivered
+TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST
+1031,2025-03-01,Zuzana Tomanova,zuzana.t@email.com,Electronics,Docking Station,1,149.99,149.99,Credit Card,Czech Republic,Delivered
+1032,2025-03-03,Roman Navratil,roman.n@mail.cz,Office Supplies,Presentation Clicker,three,22.50,67.50,Cash,Slovakia,Processing
+1033,2025-03-05,Petra Dlouha,petra.d@company.cz,Software,Design Suite License,1,249.00,249.00,Credit Card,Czech Republic,Delivered
+1034,2025-03-07,Marek Janda,marek.janda@email.cz,Electronics,Power Strip Smart,6,35.00,99999.99,Bank Transfer,Czech Republic,Delivered
+1035,2025-03-09,Nikola Sykorova,nikola.s@gmail.com,Furniture,Whiteboard Large,1,N/A,119.00,PayPal,Poland,Shipped
+1036;2025-03-11;Libor Vecera;libor.v@firma.cz;Office Supplies;Envelope Pack 500;2;8.99;17.98;Cash;Czech Republic;Delivered
+1037,2025-03-13,Monika Cervenkova,monika.c@email.com,Electronics,Ethernet Cable 10m,10,6.99,69.90,Credit Card,Czech Republic,Delivered,EXTRA_VALUE,another_extra
+1038,2025-03-15,Adam Polak,adam.polak@mail.cz,,Email Marketing Tool,1,79.00,79.00,Bank Transfer,Czech Republic,Delivered
+1039,2025-03-17,Kristyna Fialova,kristyna.f@inbox.com,Furniture,Cable Management Kit,4,18.00,72.00,Cash
+1040,2025-03-19,Viktor Soukup,NULL,Electronics,Portable Projector,1,449.00,449.00,Credit Card,Czech Republic,Processing
+1041,2025-03-21,gabriela koubkova,GABRIELA.K@EMAIL.CZ,office supplies,Sticky Notes Bulk,15,3.49,52.35,PayPal,czech republic,Delivered
+1042,2025-03-23,Dominik Havel,dominik.h@mail.com,Electronics,Surge Protector,3,28.99,86.97,Credit Card,Slovakia,Delivered
+1043,2025-03-25,Adela Machova,adela.m@firma.cz,Furniture,Monitor Arm Dual,2,69.00,138.00,Bank Transfer,Czech Republic,shippd
+1044,2025-03-27,Patrik Strnad,patrik.s@email.com,Software,"CRM Platform, Enterprise Edition",1,499.00,499.00,Credit Card,Czech Republic,Delivered
+1045,29/03/2025,Magdalena Buresova,magdalena.b@gmail.com,Office Supplies,Paper Shredder,1,89.99,89.99,Cash,Czech Republic,Delivered
+1046,2025-04-01,Igor Kriz,igor.kriz@company.cz,Electronics,USB Flash Drive 64GB,20,8,99,179.80,Bank Transfer,Poland,Delivered
+1047,2025-04-03, ,sarka.h@mail.cz,Furniture,Coat Rack Stand,1,55.00,55.00,na,Czech Republic,Delivered
+1048,2025-04-05,Tomas Vacek,tomas.vacek,Software,Backup Solution,2,69.99,139.98,Credit Card,Czech Republic,Shipped
+NULL,2025-04-07,Jana Zacharova,jana.z@firma.com,Office Supplies,Desk Calendar 2025,8,6.50,52.00,Cash,Czech Republic,Delivered
+1050,2030-04-09,Lukas Bartos,lukas.b@inbox.cz,Electronics,Webcam Light Ring,3,19.99,59.97,Credit Card,Germany,Delivered
