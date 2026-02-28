@@ -154,6 +154,7 @@ TECH STACK:
 - Runtime: ... (např. Node.js, Python 3.12, Bun)
 
 KONVENCE PRO VÝVOJ:
+- Po změnách vše zapisuj do AGENTS.md, aby to vždy odpovídalo aktuálnímu stavu projektu
 - Test-first přístup -- nejdřív test, pak implementace.
 - Každou logickou změnu commitni zvlášť s popisným commit message.
 - Kód piš čistě, s konzistentním stylem a bez zbytečných komentářů.

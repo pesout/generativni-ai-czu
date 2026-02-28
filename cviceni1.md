@@ -74,3 +74,44 @@ ssh-add ~/.ssh/id_ed25519
 - založit AGENTS.md pomocí `/init`
 - zadat prompt: *Create template (headings) in AGENTS.md file, add project description to README.md. Commit and push all changes.*
 - zkontrolovat výsledek na GitHubu
+
+### 9) AGENTS.md pro správu serveru
+
+V domovském adresáři (`~`) vytvořit soubor `AGENTS.md`, který bude sloužit jako kontext pro codex při práci se serverem. Spustit `codex` v `~` a zadat následující prompt:
+
+```
+Vytvoř soubor ~/AGENTS.md s následujícím obsahem:
+
+# Server -- správa a kontext
+
+## Systém
+- OS: Ubuntu 24
+- Uživatel: <moje uživatelské jméno>
+- Shell: bash
+
+## Nainstalované nástroje
+- nvm, Node.js (LTS), npm
+- OpenAI Codex CLI (@openai/codex)
+- git
+
+## SSH
+- Klíč: ~/.ssh/id_ed25519
+- GitHub: připojený (ssh -T git@github.com)
+
+## Git
+- Repozitáře klonovány v ~/
+- Konvence: popisné commit messages, commitovat logické celky
+
+## Správa serveru
+- Balíčky: apt update && apt upgrade
+- Služby: systemctl start/stop/restart/status <služba>
+- Firewall: ufw status / ufw allow <port>
+- SSH konfigurace: /etc/ssh/sshd_config
+- Logy: journalctl -u <služba> --since "1 hour ago"
+
+## Pravidla pro agenta
+- Před destruktivní operací (smazání, restart, změna konfigurace) se vždy zeptej.
+- Po instalaci nového nástroje aktualizuj sekci "Nainstalované nástroje".
+- Po naklonování nového repozitáře aktualizuj sekci "Git".
+- Příkazy vyžadující sudo spouštěj s sudo, ne jako root.
+```
