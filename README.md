@@ -1,6 +1,6 @@
-# Generativní AI – předmět AI Bridge a KII PEF ČZU
+# Generativní AI – předmět AI Bridge na KII PEF ČZU
 
-Stručné shrnutí jednotlivých cvičení – důležité příkazy a osnova cvičení v minimalistické podobě. Opravy a doplnění formou issues vítány.
+Stručné shrnutí jednotlivých cvičení – důležité příkazy, šablony promptů a osnova cvičení v minimalistické podobě. Opravy a doplnění formou issues vítány.
 
 ## Obsah
 
