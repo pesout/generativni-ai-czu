@@ -112,9 +112,7 @@ Cílem je vyplnit šablonu implementačního plánu a poté ji po částech kop�
 
 ### Šablona -- části ke kopírování
 
-Zde je potřeba vyplnit `...` svými odpověďmi a smazat nerelevantní sekce. V případě nejistoty je možné se na jednotlivé koncepty, technické pojmy nebo best practices doptat cvičících nebo nějakého LLM.
-
-Struktura je pouze doporučená a není pevná.
+Zde je potřeba vyplnit `...` svými odpověďmi a smazat nerelevantní sekce. V případě nejistoty je vhodné se na jednotlivé koncepty, technické pojmy nebo best practices doptat AI (LLM) nebo cvičicích. Struktura je pouze jednou z možných variant a není pevná.
 
 ---
 
