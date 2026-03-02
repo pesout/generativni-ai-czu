@@ -40,11 +40,12 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 ```
 
-### 4) Vložit SSH klíč na GitHub
+### 4) Vložit SSH klíč na GitHub a do sdíleného dokumentu
 
 - zavolat příkaz a zkopírovat výstup -- `cat ~/.ssh/id_ed25519.pub`
 - GitHub -- Settings → SSH and GPG keys → New SSH key → vložit → Add SSH key
 - ověřit v terminálu -- `ssh -T git@github.com`
+- vložit veřejný klíč do sdíleného [Google Sheetu](https://docs.google.com/spreadsheets/d/1vZOATUBXVZJbRnIsglXyWlC8TZbvt5mJeXB8dqAQ5-0/edit?usp=sharing)
 
 ### 5) Instalace node, nvm, npm
 
