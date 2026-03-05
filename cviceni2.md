@@ -159,6 +159,20 @@ OBRAZOVKY / STRÁNKY APLIKACE:
 NAVIGACE MEZI STRÁNKAMI:
 ... (např. "Spodní navigační lišta s ikonami: Přehled, Nahrát, Historie")
 
+BRANDING:
+- Název aplikace (jak se zobrazuje v UI): ...
+- Logo: ... (např. "Jednoduché textové logo", "Ikona + text", "Zatím bez loga")
+- Tón komunikace v aplikaci: ... (např. "Přátelský a neformální", "Profesionální", "Hravý s emojis")
+- Claim / slogan (nepovinné): ... (např. "Vaše účtenky pod kontrolou")
+
+BAREVNÉ SCHÉMA:
+- Primární barva: ... (např. "#4F46E5 -- indigo", "modrá", "zelená -- příroda")
+- Sekundární barva: ... (např. "#10B981 -- zelená pro úspěch")
+- Barva pozadí: ... (např. "Bílá / světle šedá", "Tmavý režim")
+- Barva textu: ... (např. "Tmavě šedá #1F2937")
+- Accent / CTA barva: ... (např. "Oranžová pro hlavní tlačítka")
+- Styl: ... (např. "Moderní a minimalistický", "Barevný a hravý", "Korporátní")
+
 TYPICKÝ PRŮCHOD UŽIVATELE (user flow):
 1. Uživatel otevře aplikaci a vidí: ...
 2. Klikne na: ...
