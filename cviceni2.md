@@ -104,24 +104,18 @@ Soubory:
 - [sales_clean.csv](data/sales_clean.csv)
 - [sales_messy.csv](data/sales_messy.csv)
 
-## Implementační plán projektu
+## Výběr tématu a komplexní popis projektu
 
-Studenti si vyberou svůj projekt (viz [příklady projektů z cvičení 1](cviceni1.md)) a založí GitHub repozitář (viz [postup z cvičení 1](cviceni1.md#1-registrace-na-github--testovací-repozitář)).
+Studenti si vyberou svůj projekt (viz [příklady projektů z cvičení 1](cviceni1.md)). Cílem je vytvořit podrobný popis celé aplikace, který bude později sloužit jako vstup pro všechny další kroky:
 
-Cílem je vyplnit šablonu implementačního plánu a poté ji po částech kopírovat do AI agenta. Každá část = jeden prompt pro agenta. Postup: zkopírovat → nechat implementovat → otestovat → opravit → pokračovat další částí.
+- extrakce popisu frontendu pro [Lovable](https://lovable.dev)
+- extrakce implementačních částí pro lokálního AI agenta Codex
 
-### Šablona -- části ke kopírování
+### Šablona komplexního popisu projektu
 
-Zde je potřeba vyplnit `...` svými odpověďmi a smazat nerelevantní sekce. V případě nejistoty je vhodné se na jednotlivé koncepty, technické pojmy nebo best practices doptat AI (LLM) nebo cvičicích. Struktura je pouze jednou z možných variant a není pevná.
-
----
-
-**Část 1 -- Popis projektu a AGENTS.md** (zkopírovat do agenta jako první prompt)
+Vyplňte `...` svými odpověďmi a smažte nerelevantní sekce. V případě nejistoty je vhodné se na jednotlivé koncepty, technické pojmy nebo best practices doptat AI (LLM) nebo cvičících.
 
 ```
-Vytvoř soubor AGENTS.md s následujícím obsahem a zároveň vytvoř README.md
-s názvem projektu a krátkým popisem. Commitni a pushni.
-
 NÁZEV PROJEKTU: ...
 JEDNOVĚTÝ POPIS: ... (např. "Aplikace pro sledování výdajů z fotografií účtenek")
 
@@ -145,43 +139,16 @@ CO APLIKACE V MVP NEBUDE UMĚT (out of scope):
 JAK SE PROJEKT LIŠÍ OD EXISTUJÍCÍCH ŘEŠENÍ:
 ... (např. "Na rozdíl od Splitwise se zaměřuje čistě na účtenky z českých obchodů")
 
+STRUKTURA REPOZITÁŘE:
+- frontend/  -- uživatelské rozhraní (bude vytvořeno v Lovable, pak upravováno lokálně)
+- backend/   -- serverová logika a API (bude implementováno lokálně pomocí Codexu)
+
 TECH STACK:
-- Jazyk / framework: ... (např. Next.js, Nest.js, Python/Flask, SvelteKit)
-- Databáze: ... (např. SQLite pro jednoduchost, PostgreSQL pro produkci, žádná pokud stačí soubory/localStorage)
-- Další knihovny: ... (např. Tailwind CSS, Prisma, OpenAI SDK, Tesseract.js)
-- Runtime: ... (např. Node.js, Python 3.12, Bun)
+- Frontend: ... (bude vytvořen v Lovable -- typicky React + Vite + Tailwind)
+- Backend framework: ... (např. Node.js/Express, Python/Flask, Python/FastAPI)
+- Databáze: ... (např. SQLite pro jednoduchost, PostgreSQL, žádná pokud stačí soubory)
+- Další knihovny / API: ... (např. OpenAI SDK, Tesseract.js, Weather API)
 
-KONVENCE PRO VÝVOJ:
-- Po změnách vše zapisuj do AGENTS.md, aby to vždy odpovídalo aktuálnímu stavu projektu
-- Test-first přístup -- nejdřív test, pak implementace.
-- Každou logickou změnu commitni zvlášť s popisným commit message.
-- Kód piš čistě, s konzistentním stylem a bez zbytečných komentářů.
-- Pokud si nejsi jistý, zeptej se -- neimplementuj na základě domněnek.
-- Všechny texty v UI budou v: ... (čeština / angličtina)
-```
-
----
-
-**Část 2 -- Inicializace projektu** (zkopírovat po dokončení části 1)
-
-```
-Podle AGENTS.md inicializuj projekt:
-
-- Vytvoř adresářovou strukturu projektu.
-- Přidej konfigurační soubory (.gitignore, linter, formatter, package.json
-  nebo requirements.txt).
-- Nastav dev server tak, aby šel spustit jedním příkazem.
-- Přidej do README.md sekci "Spuštění" s příkazy pro instalaci závislostí
-  a start dev serveru.
-- Pokud projekt používá databázi, připrav schéma / migrace.
-- Commitni a pushni.
-```
-
----
-
-**Část 3 -- Uživatelské rozhraní a datový model** (vyplnit a zkopírovat)
-
-```
 OBRAZOVKY / STRÁNKY APLIKACE:
 1. ... (např. "Hlavní stránka -- přehled výdajů za aktuální měsíc")
 2. ... (např. "Detail účtenky -- seznam položek z jedné účtenky")
@@ -223,70 +190,39 @@ CHYBOVÉ STAVY:
 - Prázdný stav (žádná data): ... (např. "Zobrazit ilustraci s textem 'Zatím nemáte žádné účtenky'")
 - Pomalé načítání: ... (např. "Zobrazit skeleton loading")
 
-Na základě výše uvedeného:
-1. Vytvoř datový model (entity, atributy, vztahy).
-2. Vytvoř základní kostru komponent / stránek / rout -- zatím bez logiky.
-3. Napiš testy pro datový model.
-4. Commitni a pushni.
+POPIS JEDNOTLIVÝCH FUNKCÍ:
+
+Pro každou funkci z MVP seznamu vyplňte:
+
+Funkce 1: ... (název, např. "Nahrání a zpracování fotky účtenky")
+- Popis: ... (Co přesně tato funkce dělá z pohledu uživatele?)
+- Vstup: ... (Co uživatel zadá nebo nahraje? Jaký formát? Jaká omezení --
+  např. max velikost souboru, povolené formáty?)
+- Výstup: ... (Co uživatel uvidí po dokončení? Jaký formát výsledku?)
+- Kde v aplikaci se používá: ... (Na které stránce / obrazovce? Po jaké akci se spustí?)
+- Závislosti: ... (Potřebuje tato funkce externí API? Databázi? Výstup jiné funkce?)
+- Edge cases:
+  - Co když je vstup prázdný: ...
+  - Co když je vstup ve špatném formátu: ...
+  - Co když externí služba neodpoví: ...
+  - Co když už taková data existují (duplicita): ...
+
+Funkce 2: ...
+(stejná struktura)
+
+Funkce 3: ...
+(stejná struktura)
 ```
 
----
+## Přehled celého vývojového flow
 
-**Část 4 -- Implementace funkcí** (kopírovat zvlášť pro každou funkci)
+Kompletní popis projektu bude v dalších krocích (viz [cvičení 3](cviceni3.md)) sloužit jako vstup pro:
 
-Pro každou funkci z MVP seznamu vyplnit a zkopírovat jako samostatný prompt:
+1. **Extrakci popisu frontendu** -- pomocí LLM vytáhneme z popisu semi-technickou specifikaci uživatelského rozhraní
+2. **Vytvoření frontendu v Lovable** -- specifikaci použijeme v [Lovable](https://lovable.dev) pro vygenerování funkčního UI a iterujeme přímo v Lovable
+3. **Propojení s GitHubem** -- výsledný projekt z Lovable propojíme s GitHub repozitářem a přesuneme lokálně do složky `frontend/`
+4. **Extrakce implementačních částí** -- z původního popisu pomocí LLM vytvoříme oddělené části pro lokálního AI agenta (Codex)
+5. **Iterativní implementace v Codexu** -- každou část zkopírujeme do Codexu: zkopírovat → nechat implementovat → otestovat → opravit promptováním → pokračovat další částí
+6. **Průběžné pushování na GitHub** -- pravidelně pushujeme změny
 
-```
-Implementuj funkci: ... (např. "Nahrání a zpracování fotky účtenky")
-
-POPIS:
-... (Co přesně tato funkce dělá z pohledu uživatele?)
-
-VSTUP:
-... (Co uživatel zadá nebo nahraje? Jaký formát? Jaká omezení --
-např. max velikost souboru, povolené formáty?)
-
-VÝSTUP:
-... (Co uživatel uvidí po dokončení? Jaký formát výsledku?)
-
-KDE V APLIKACI SE POUŽÍVÁ:
-... (Na které stránce / obrazovce? Po jaké akci se spustí?)
-
-ZÁVISLOSTI:
-... (Potřebuje tato funkce externí API? Databázi? Výstup jiné funkce?)
-
-EDGE CASES:
-- Co když je vstup prázdný: ...
-- Co když je vstup ve špatném formátu: ...
-- Co když externí služba neodpoví: ...
-- Co když už taková data existují (duplicita): ...
-
-POSTUP:
-1. Napiš testy pro tuto funkci (happy path + edge cases).
-2. Implementuj backend logiku / API endpoint.
-3. Implementuj frontend komponentu.
-4. Ověř, že testy prochází.
-5. Commitni a pushni.
-```
-
----
-
-**Část 5 -- Testování a dokončení** (zkopírovat na závěr)
-
-```
-Závěrečné testování a dokončení projektu:
-
-1. Spusť všechny testy a oprav případné chyby.
-2. Projdi kompletní uživatelský flow od začátku do konce:
-   - Registrace / přihlášení (pokud existuje)
-   - Hlavní funkce aplikace
-   - Zobrazení výsledků
-   - Chybové stavy
-3. Ověř, že dev server jde spustit jedním příkazem po čistém git clone.
-4. Zkontroluj, že README.md obsahuje:
-   - Popis projektu
-   - Návod k instalaci a spuštění
-   - Použité technologie
-5. Finální commit a push.
-```
 
