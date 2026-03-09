@@ -1,115 +1,24 @@
-# II. Prompt engineering, context engineering, architektura projektu
+# II. Vibe-coding: výběr projektu, architektura a vývoj
 
-## Porovnávací aplikace se dvěma okny
+## Rychlá kontrola nastavení z cvičení 1
 
-- [http://aibr.pesout.net/dual-prompt.php](http://aibr.pesout.net/dual-prompt.php)
+Než začneme, ověřte si v terminálu, že máte vše z [cvičení 1](cviceni1.md) správně nastavené:
 
-## Ukázkové páry promptů -- srovnání formulací
-
-### 1) Vágní vs. konkrétní
-
-**Prompt A:**
-
-```
-Řekni mi něco o fotosyntéze.
-```
-
-**Prompt B:**
-
-```
-Vysvětli proces fotosyntézy pro studenta střední školy. Popiš vstupní látky,
-výstupní produkty a kde v rostlině probíhá. Odpověz v 5 bodech.
-```
-
-### 2) Bez role vs. s rolí
-
-**Prompt A:**
-
-```
-Jak funguje inflace?
-```
-
-**Prompt B:**
-
-```
-Jsi zkušený učitel ekonomie na gymnáziu. Vysvětli studentům, jak funguje inflace,
-použij jednoduchý příklad z běžného života (např. cena chleba) a uveď hlavní
-příčiny inflace.
-```
-
-### 3) Bez formátu vs. s požadovaným formátem
-
-**Prompt A:**
-
-```
-Jaké jsou výhody a nevýhody práce z domova?
-```
-
-**Prompt B:**
-
-```
-Vytvoř přehlednou tabulku ve formátu markdown se dvěma sloupci: "Výhody"
-a "Nevýhody" práce z domova. Uveď alespoň 5 položek v každém sloupci.
-```
-
-### 4) Jednoduchý dotaz vs. krok za krokem
-
-**Prompt A:**
-
-```
-Kolik je 47 × 83? Napiš výsledek.
-```
-
-**Prompt B:**
-
-```
-Kolik je 47 × 83? Ukaž celý postup výpočtu krok za krokem a na konci napiš
-finální výsledek.
-```
-
-### 5) Bez příkladu vs. s příkladem
-
-**Prompt A:**
-
-```
-Z následujících popisů vypiš klíčové informace:
-
-Nyní zpracuj:
-1. Jan Novák, 32 let, pracuje jako programátor v Praze.
-2. Marie Dvořáková, 45 let, učitelka z Brna.
-3. Petr Horák, 28 let, designér, žije v Ostravě.
-```
-
-**Prompt B:**
-
-```
-Z následujících popisů vypiš klíčové informace:
-
-Příklad:
-Vstup: "Eva Malá, 38 let, pracuje jako lékařka v Plzni."
-Výstup: "Malá, E. | 38 | lékařka | Plzeň"
-
-Nyní zpracuj:
-1. Jan Novák, 32 let, pracuje jako programátor v Praze.
-2. Marie Dvořáková, 45 let, učitelka z Brna.
-3. Petr Horák, 28 let, designér, žije v Ostravě.
-```
-
-## Context engineering
-
-Analýza/výpočty nad dvěma CSV soubory pomocí nástroje codex přímo v CLI.
-
-Soubory:
-
-- [sales_clean.csv](data/sales_clean.csv)
-- [sales_messy.csv](data/sales_messy.csv)
+1. `git --version` -- Git je nainstalovaný
+2. `ssh -T git@github.com` -- SSH klíč je propojený s GitHubem
+3. `node -v` -- Node.js je nainstalovaný
+4. `npm -v` -- npm je nainstalovaný
+5. `codex --version` -- OpenAI Codex CLI je nainstalovaný
+6. Editor (VS Code / Cursor / Antigravity) je nainstalovaný a funkční
+7. Testovací repozitář je naklonovaný a přístupný
+8. V repozitáři se nachází vygenerovaný `AGENTS.md soubor`
 
 ## Výběr tématu a komplexní popis projektu
 
 Studenti si vyberou svůj projekt (viz [příklady projektů z cvičení 1](cviceni1.md)). Cílem je vytvořit podrobný popis celé aplikace, který bude později sloužit jako vstup pro všechny další kroky:
 
-- extrakce popisu frontendu pro [Lovable](https://lovable.dev)
-- extrakce implementačních částí pro lokálního AI agenta Codex
+- extrakce popisu frontendu pro AI tool [Lovable](https://lovable.dev)
+- extrakce implementačních částí pro AI agenta Codex
 
 ### Šablona komplexního popisu projektu
 
@@ -145,8 +54,8 @@ STRUKTURA REPOZITÁŘE:
 
 TECH STACK:
 - Frontend: ... (bude vytvořen v Lovable -- typicky React + Vite + Tailwind)
-- Backend framework: ... (např. Node.js/Express, Python/Flask, Python/FastAPI)
-- Databáze: ... (např. SQLite pro jednoduchost, PostgreSQL, žádná pokud stačí soubory)
+- Backend framework: ... (např. NestJS/Express, Python/Flask)
+- Databáze: ... (např. SQLite pro jednoduchost, MySQL, Supabase, žádná pokud stačí soubory)
 - Další knihovny / API: ... (např. OpenAI SDK, Tesseract.js, Weather API)
 
 OBRAZOVKY / STRÁNKY APLIKACE:
@@ -228,15 +137,171 @@ Funkce 3: ...
 (stejná struktura)
 ```
 
-## Přehled celého vývojového flow
+## 1) Extrakce popisu frontendu pomocí LLM
 
-Kompletní popis projektu bude v dalších krocích (viz [cvičení 3](cviceni3.md)) sloužit jako vstup pro:
+Z komplexního popisu projektu necháme LLM vytáhnout semi-technickou specifikaci frontendu, kterou pak použijeme v Lovable.
 
-1. **Extrakci popisu frontendu** -- pomocí LLM vytáhneme z popisu semi-technickou specifikaci uživatelského rozhraní
-2. **Vytvoření frontendu v Lovable** -- specifikaci použijeme v [Lovable](https://lovable.dev) pro vygenerování funkčního UI a iterujeme přímo v Lovable
-3. **Propojení s GitHubem** -- výsledný projekt z Lovable propojíme s GitHub repozitářem a přesuneme lokálně do složky `frontend/`
-4. **Extrakce implementačních částí** -- z původního popisu pomocí LLM vytvoříme oddělené části pro lokálního AI agenta (Codex)
-5. **Iterativní implementace v Codexu** -- každou část zkopírujeme do Codexu: zkopírovat → nechat implementovat → otestovat → opravit promptováním → pokračovat další částí
-6. **Průběžné pushování na GitHub** -- pravidelně pushujeme změny
+### Instrukce pro LLM (zkopírovat do ChatGPT / Claude / jiného LLM)
 
+```
+Mám komplexní popis webové aplikace (viz níže). Vytáhni z něj semi-technickou
+specifikaci frontendu pro nástroj Lovable (AI website builder).
 
+Specifikace by měla obsahovat:
+- Seznam všech obrazovek / stránek a co na nich uživatel vidí
+- Navigaci mezi stránkami
+- Pro každou obrazovku: rozložení prvků (layout), formuláře, tlačítka,
+  seznamy, karty, modální okna atd.
+- Typický průchod uživatele (user flow) krok za krokem
+- Vizuální styl (barvy, font, světlý/tmavý režim) -- pokud není specifikován,
+  navrhni moderní a čistý design
+- Responzivitu (mobilní vs. desktopová verze)
+- Chybové stavy a prázdné stavy z pohledu UI
+- Kde frontend volá backend API -- u těchto míst napiš "TODO: napojit na API"
+  a použij mock data / placeholder
+
+DŮLEŽITÉ:
+- Frontend zatím NEBUDE obsahovat skutečnou backend logiku -- jen UI a mock data
+- Specifikaci piš v češtině
+- Výstup by měl být přímo použitelný jako prompt pro Lovable
+
+Zde je kompletní popis projektu:
+<ZDE VLOŽTE SVŮJ KOMPLEXNÍ POPIS PROJEKTU>
+```
+
+## 2) Vytvoření frontendu v Lovable
+
+1. Otevřít [Lovable](https://lovable.dev) a vytvořit nový projekt
+2. Vložit semi-technickou specifikaci frontendu jako úvodní prompt
+3. Nechat Lovable vygenerovat první verzi UI
+4. Iterovat přímo v Lovable pomocí dalších promptů -- opravit rozložení, doplnit chybějící stránky, upravit vizuální styl atd.
+5. Ověřit, že všechny obrazovky a navigace fungují s mock daty
+
+## 3) Propojení Lovable s GitHubem a klonování
+
+1. V Lovable propojit projekt s GitHub repozitářem (Lovable → Settings → GitHub)
+2. Lovable vytvoří repozitář s vygenerovaným kódem
+3. Naklonovat repozitář lokálně a spustit Codex:
+
+```bash
+git clone git@github.com:<uzivatel>/<repozitar>.git
+cd <repozitar>
+codex
+```
+
+4. Přesunout obsah do složky `frontend/` a vytvořit složku `backend/` -- v Codexu zadat prompt:
+
+```
+Přesuň všechny soubory a složky (kromě .git) do nové složky frontend/.
+Vytvoř prázdnou složku backend/. Commitni s popisnou commit message.
+```
+
+Ruční alternativa v terminálu:
+
+```bash
+mkdir frontend
+git mv $(ls -A | grep -v -E '^(\.git|frontend)$') frontend/
+mkdir backend
+git add -A && git commit -m "Reorganize: move Lovable frontend into frontend/ folder, create backend/"
+```
+
+5. Ověřit, že frontend stále funguje -- v Codexu zadat prompt:
+
+```
+Nainstaluj závislosti ve složce frontend/ a spusť dev server.
+Ověř, že aplikace běží bez chyb.
+```
+
+Ruční alternativa v terminálu:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## 4) Extrakce implementačních částí pro Codex
+
+Z původního komplexního popisu projektu necháme LLM vytvořit oddělené části (chunky), které půjdou postupně kopírovat do Codexu.
+
+### Instrukce pro LLM (zkopírovat do ChatGPT / Claude / jiného LLM)
+
+```
+Mám komplexní popis webové aplikace (viz níže). Rozděl ho na samostatné
+implementační části (chunky) pro lokálního AI coding agenta (OpenAI Codex).
+
+Každá část bude zkopírována do agenta jako samostatný prompt. Agent pracuje
+v repozitáři se strukturou:
+- frontend/  -- hotový frontend (React + Vite), vygenerovaný v Lovable
+- backend/   -- zatím prázdná složka pro serverovou logiku
+
+Požadavky na chunky:
+1. První chunk = inicializace backendu (struktura projektu, package.json /
+   requirements.txt, základní server)
+2. Druhý chunk = vytvoření AGENTS.md souborů pro celý projekt:
+   - Kořenový AGENTS.md -- přehled projektu, struktura repozitáře, konvence,
+     návod jak spouštět a testovat, bezpečnostní pravidla (nikdy necommitovat
+     secrets, .env soubory přidávat do .gitignore, používat environment variables)
+   - frontend/AGENTS.md -- tech stack frontendu, jak spustit dev server,
+     struktura komponent, konvence pojmenování, kde jsou mock data
+   - backend/AGENTS.md -- tech stack backendu, jak spustit server, struktura
+     API endpointů, databázové schéma, jak přidávat nové endpointy
+   - Každý AGENTS.md musí obsahovat instrukci: "Pokud přidáš novou funkci,
+     endpoint nebo změníš strukturu projektu, aktualizuj příslušný AGENTS.md"
+3. Další chunky = jednotlivé funkce / API endpointy, každý se dá implementovat
+   a otestovat nezávisle
+4. Jeden z chunků = propojení frontendu s backendem (nahrazení mock dat
+   skutečnými API voláními)
+5. Poslední chunk = závěrečné testování a dokončení
+
+Pro každý chunk uveď:
+- Název a stručný popis
+- Co přesně má agent udělat (konkrétní instrukce)
+- Jaké soubory bude vytvářet / upravovat
+- Jak ověřit, že chunk je hotový (testovací kritéria)
+- Závislosti na předchozích chunkách
+
+Formát výstupu: očíslované chunky, každý jako hotový prompt ke zkopírování
+do agenta. Každý prompt konči instrukcí "Commitni a pushni změny."
+
+Zde je kompletní popis projektu:
+<ZDE VLOŽTE SVŮJ KOMPLEXNÍ POPIS PROJEKTU>
+```
+
+## 5) Iterativní implementace v Codexu
+
+Postup pro každý chunk:
+
+1. Zkopírovat chunk do Codexu jako prompt
+2. Nechat agenta implementovat
+3. Otestovat výsledek (spustit server, ověřit endpoint, zkontrolovat kód)
+4. Pokud něco nefunguje -- opravit promptováním přímo v Codexu
+5. Pokračovat dalším chunkem
+
+```bash
+# spustit codex ve složce projektu
+cd <repozitar>
+codex
+```
+
+Užitečné příkazy v Codexu viz [přehled z cvičení 1](cviceni1.md#10-přehled-užitečných-příkazů-v-codexu).
+
+## 6) Průběžné pushování na GitHub
+
+Po dokončení každého chunku (nebo i častěji) pushujte změny. Můžete využít přímo Codex s promptem:
+
+```
+Commitni všechny změny s popisným commit message a pushni na GitHub.
+```
+
+Nebo ručně:
+
+```bash
+git add -A
+git commit -m "popis změny"
+git push
+```
+
+## 7) Pokračování práce doma
+
+Rozpracujte projekt dále dle libosti s využitím postupů ze cvičení.

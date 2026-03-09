@@ -5,5 +5,5 @@ Stručné shrnutí jednotlivých cvičení – důležité příkazy, šablony p
 ## Obsah
 
 1. [Příprava prostředí, principy generativní AI](cviceni1.md) -- nastavení nástrojů a prostředí
-2. [Prompt engineering, context engineering, popis projektu](cviceni2.md) -- techniky efektivní komunikace s AI, tvorba komplexního popisu projektu
-3. [Vibe-coding: frontend v Lovable, pokračování v Codexu](cviceni3.md) -- repozitář, prvotní návrh frontendu, iterativní implementace
+2. [Vibe-coding: výběr projektu, architektura a vývoj](cviceni2.md) -- popis projektu, frontend v Lovable, iterativní implementace v Codexu
+3. [Prompt engineering, context engineering](cviceni3.md) -- techniky efektivní komunikace s AI, práce s kontextem
