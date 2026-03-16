@@ -268,6 +268,14 @@ Zde je kompletní popis projektu:
 <ZDE VLOŽTE SVŮJ KOMPLEXNÍ POPIS PROJEKTU>
 ```
 
+### AGENTS.md draft
+
+Jakmile budeme mít prompty, zaměříme se na AGENTS.md. Necháme si vytvořit draft AGENTS.md s promptem do LLM ve stejné konverzaci, kde máme kontext našeho projektu. Můžeme použít [agents_example.md](data/agents_example.md) a prompt ve stylu
+
+```
+Na základě toho, co víš o tomto projektu vytvoř vhodný AGENTS.md. Využij strukturu z přiloženého souboru.
+```
+
 ## 5) Iterativní implementace v Codexu
 
 Postup pro každý chunk:
