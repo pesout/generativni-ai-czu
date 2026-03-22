@@ -184,6 +184,14 @@ LLM_TEMPERATURE=0.7
 LLM_MAX_TOKENS=1024
 ```
 
+### Konfigurace teploty (temperature)
+
+- **0.0** -- deterministický výstup, vždy nejpravděpodobnější token. Ideální pro fakta, kód, klasifikaci.
+- **0.1 až 0.3** -- minimální variabilita, stále velmi konzistentní. Dobrý kompromis pro většinu produkčních úloh (sumarizace, extrakce, překlad).
+- **0.4 až 0.7** -- vyvážený režim. Více kreativity, stále koherentní. Konverzační chatboti, copywriting.
+- **0.8 až 1.0** -- výrazně kreativnější, méně předvídatelný. Brainstorming, generování příběhů, poezie.
+- **více než 1.0** -- roste pravděpodobnost i málo pravděpodobných tokenů. Často nesouvislý, halucinující výstup. Zřídka užitečné.
+
 ## 4) Implementace chatbotu -- backend
 
 ### Prompt pro Codex
@@ -201,7 +209,7 @@ Požadavky:
    při startu aplikace (ne při každém requestu)
 
 3. Konfigurace modelu (název modelu, temperature, max_tokens) se načítá
-   z environment variables
+   z environment variables (.env)
 
 4. Použij existující LLM service / abstrakční vrstvu -- pokud ještě
    neexistuje, vytvoř ji (zbytek aplikace nesmí volat OpenAI SDK přímo)
