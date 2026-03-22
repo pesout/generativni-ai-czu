@@ -4,16 +4,16 @@
 
 Než začnete, ověřte si stav svého projektu z minulých cvičení:
 
-- 1. Projekt existuje v Lovable
-- 2. Projekt je propojený s GitHub repozitářem
-- 3. Repozitář je naklonovaný lokálně
-- 4. Struktura repozitáře obsahuje složky `frontend/` a `backend/`
-- 5. Frontend se spustí lokálně (`cd frontend && npm install && npm run dev`)
-- 6. Backend se spustí lokálně (pokud už je implementovaný)
-- 7. Databáze je nakonfigurovaná a dostupná (pokud ji projekt používá)
-- 8. `AGENTS.md` existuje v kořeni repozitáře
-- 9. `AGENTS.md` existuje ve složce `frontend/`
-- 10. `AGENTS.md` existuje ve složce `backend/`
+1. Projekt existuje v Lovable
+2. Projekt je propojený s GitHub repozitářem
+3. Repozitář je naklonovaný lokálně
+4. Struktura repozitáře obsahuje složky `frontend/` a `backend/`
+5. Frontend se spustí lokálně (`cd frontend && npm install && npm run dev`)
+6. Backend se spustí lokálně (pokud už je implementovaný)
+7. Databáze je nakonfigurovaná a dostupná (pokud ji projekt používá)
+8. `AGENTS.md` existuje v kořeni repozitáře
+9. `AGENTS.md` existuje ve složce `frontend/`
+10. `AGENTS.md` existuje ve složce `backend/`
 
 > Pokud některý bod chybí, vraťte se ke [cvičení 2](cviceni2.md) a doplňte ho. Zejména `AGENTS.md` soubory jsou důležité -- AI agent (Codex) z nich čerpá kontext o projektu.
 
@@ -171,8 +171,6 @@ aplikace [NÁZEV]. Mohu vám pomoci například s [funkce 1] nebo [funkce 2]."
 ## Formátování odpovědí
 - Pro postupy používej očíslované kroky (1., 2., 3.)
 - Pro výčty používej odrážky
-- Názvy tlačítek a prvků UI piš tučně: **Uložit**, **Nastavení**
-- Pokud odkazuješ na sekci aplikace, uveď cestu: **Nastavení → Profil → Změnit heslo**
 ```
 
 > Tento soubor se načítá při startu backendu jako system prompt pro chatbot. Když chcete změnit chování chatbotu, stačí upravit tento soubor a restartovat backend.
@@ -215,6 +213,8 @@ Požadavky:
    a uživatelsky čitelnými chybovými hláškami
 
 7. Aktualizuj AGENTS.md -- přidej dokumentaci chatbot endpointu
+
+8. Otestuj implementaci pomocí requestu na API endpoint pro chat.
 
 Commitni změny.
 ```
@@ -266,26 +266,28 @@ Commitni změny.
 
 Po implementaci backendu i frontendu ověřte, že vše funguje:
 
-1. Spusťte backend:
+Spusťte backend:
 
 ```bash
 cd backend
 # podle tech stacku: npm run start:dev / npm run dev / python app.py
 ```
 
-2. Spusťte frontend:
+Spusťte frontend:
 
 ```bash
 cd frontend
 npm run dev
 ```
 
-3. Otevřete aplikaci v prohlížeři a otestujte chatbot:
-   - Klikněte na ikonu chatu
-   - Napište testovací zprávu
-   - Ověřte, že přijde odpověď
-   - Napište navazující zprávu -- ověřte, že chatbot si pamatuje kontext konverzace
-   - Zkuste odeslat prázdnou zprávu -- nemělo by být povoleno
+Otevřete aplikaci v prohlížeři a otestujte chatbot:
+  - Klikněte na ikonu chatu
+  - Napište testovací zprávu
+  - Ověřte, že přijde odpověď
+  - Napište navazující zprávu -- ověřte, že chatbot si pamatuje kontext konverzace
+  - Zkuste odeslat prázdnou zprávu -- nemělo by být povoleno
+
+Dále můžete experimentovat se změnami konfigurace v souboru `backend/chatbot-instructions.md` a s různým nastavením v `.env` (změna teploty nebo modelu).
 
 ### Prompt pro opravu problémů (pokud něco nefunguje)
 
@@ -364,12 +366,3 @@ git add -A
 git commit -m "popis změny"
 git push
 ```
-
-## 9) Pokračování práce doma
-
-Doporučené kroky pro pokračování:
-
-- Upravte `chatbot-instructions.md` -- zpřesněte instrukce, přidejte příklady, vyzkoušejte různé formulace system promptu
-- Experimentujte s parametry v `.env` -- zkuste jiný model, změňte temperature
-- Rozšiřte chatbot o přístup k datům aplikace (viz krok 7A)
-- Zkuste vyměnit LLM poskytovatele (viz krok 7C) a ověřte, že abstrakce funguje
