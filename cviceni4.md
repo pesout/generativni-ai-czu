@@ -1,5 +1,9 @@
 # IV. Integrace LLM API a chatbot
 
+## Výukový materiál od Alžběty Pokorné
+
+- [github.com/Alzpeta/llm_functions](https://github.com/Alzpeta/llm_functions)
+
 ## Kontrolní seznam z minulých cvičení
 
 Než začnete, ověřte si stav svého projektu z minulých cvičení:

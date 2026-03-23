@@ -1,8 +1,8 @@
 # III. Prompt engineering, context engineering
 
-## Hlavní výukový materiál od Alžběty Pokorné
+## Výukový materiál od Alžběty Pokorné
 
-- [https://github.com/Alzpeta/prompt_engineering](https://github.com/Alzpeta/prompt_engineering)
+- [github.com/Alzpeta/prompt_engineering](https://github.com/Alzpeta/prompt_engineering)
 
 ## Porovnávací aplikace se dvěma okny
 
