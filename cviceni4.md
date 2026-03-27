@@ -23,7 +23,11 @@ Než začnete, ověřte si stav svého projektu z minulých cvičení:
 
 ## 1) OpenAI API klíč
 
-Pro práci s LLM API budete potřebovat OpenAI API klíč:
+Pro práci s LLM API budete potřebovat API klíč.
+
+> **Pokud jste účastníci kurzu v LS 2025/26, klíč jste již obdrželi v mailu nebo osobně. V takovém případě můžete postup pro vytovoření klíče ignorovat a do `.env` si vložit ten, který vám byl poskytnut.**
+
+Postup pro získání OpenAI API klíče:
 
 1. Přihlaste se na [platform.openai.com](https://platform.openai.com)
 2. Přejděte do sekce **API keys**
