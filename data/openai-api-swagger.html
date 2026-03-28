@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenAI API – pískoviště</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.14/swagger-ui.min.css" />
+  <style>
+    body { margin: 0; background: #fafafa; }
+    .topbar { display: none !important; }
+    .swagger-ui .info { margin: 20px 0; }
+    .swagger-ui .info .title { font-size: 2em; }
+    .cors-banner {
+      background: linear-gradient(135deg, #1e1e2e, #2d2d44);
+      color: #e0e0e0;
+      padding: 16px 24px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .cors-banner code {
+      background: rgba(255,255,255,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    .cors-banner strong { color: #a8d8ff; }
+  </style>
+</head>
+<body>
+
+<div id="swagger-ui"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.14/swagger-ui-bundle.min.js"></script>
+<script>
+const spec = {
+  "openapi": "3.0.3",
+  "info": {
+    "title": "OpenAI API – pískoviště",
+    "description": "Interaktivní přehled klíčových OpenAI API endpointů pro účely workshopu. Zadej svůj API klíč přes Authorize a testuj jednotlivé endpointy.\n\n**Modely:** GPT-5.4, GPT-5.2, GPT-4o, GPT-4.1, o3, o4-mini, whisper-1, gpt-4o-transcribe, gpt-4o-mini-tts, tts-1, text-embedding-3-small/large, gpt-image-1\n\n**Dokumentace:** [platform.openai.com/docs](https://platform.openai.com/docs)",
+    "version": "2026-03"
+  },
+  "servers": [
+    { "url": "https://api.openai.com", "description": "OpenAI API (vyžaduje CORS proxy pro browser)" },
+    { "url": "http://localhost:8080/https://api.openai.com", "description": "Přes lokální CORS proxy (npx cors-anywhere)" }
+  ],
+  "security": [{ "BearerAuth": [] }],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "sk-...",
+        "description": "OpenAI API klíč. Najdeš v dashboard.openai.com pod API Keys."
+      }
+    }
+  },
+  "tags": [
+    { "name": "Chat Completions", "description": "Generování textu — starší stateless endpoint" },
+    { "name": "Responses", "description": "Novější agentní endpoint s built-in tools" },
+    { "name": "Speech-to-Text", "description": "Transkripce a překlad audia (Whisper, GPT-4o Transcribe)" },
+    { "name": "Text-to-Speech", "description": "Generování řeči z textu" },
+    { "name": "Images", "description": "Generování a editace obrázků" },
+    { "name": "Embeddings", "description": "Vektorové reprezentace textu" },
+    { "name": "Models", "description": "Výpis dostupných modelů" }
+  ],
+  "paths": {
+    "/v1/chat/completions": {
+      "post": {
+        "tags": ["Chat Completions"],
+        "summary": "Vytvoř chat completion",
+        "description": "Klasický endpoint pro generování textu. Podporuje function calling, structured output, streaming, vision (obrázky v content).",
+        "operationId": "createChatCompletion",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["model", "messages"],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "description": "ID modelu",
+                    "enum": ["gpt-5.4", "gpt-5.2", "gpt-4o", "gpt-4o-mini", "gpt-4.1", "gpt-4.1-mini", "gpt-4.1-nano", "o3", "o4-mini"],
+                    "default": "gpt-4o-mini"
+                  },
+                  "messages": {
+                    "type": "array",
+                    "description": "Seznam zpráv v konverzaci. Pro vision použij pole content částí místo stringu.",
+                    "items": {
+                      "type": "object",
+                      "required": ["role", "content"],
+                      "properties": {
+                        "role": { "type": "string", "enum": ["system", "user", "assistant"] },
+                        "content": {
+                          "description": "Text (string) nebo pole content částí pro multimodální vstup (vision)",
+                          "oneOf": [
+                            { "type": "string" },
+                            {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": { "type": "string", "enum": ["text", "image_url"], "description": "Typ content části" },
+                                  "text": { "type": "string", "description": "Text (pro type=text)" },
+                                  "image_url": {
+                                    "type": "object",
+                                    "description": "Obrázek (pro type=image_url)",
+                                    "properties": {
+                                      "url": { "type": "string", "description": "URL obrázku nebo data:image/...;base64,..." },
+                                      "detail": { "type": "string", "enum": ["low", "high", "auto"], "default": "auto", "description": "Rozlišení: low = 512x512 rychlé, high = plné rozlišení, auto = model rozhodne" }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "example": [
+                      { "role": "system", "content": "Jsi užitečný asistent. Odpovídej česky." },
+                      { "role": "user", "content": "Co je to REST API? Vysvětli ve 2 větách." }
+                    ]
+                  },
+                  "temperature": { "type": "number", "minimum": 0, "maximum": 2, "default": 1, "description": "Kreativita odpovědi (0 = deterministické, 2 = hodně kreativní)" },
+                  "max_tokens": { "type": "integer", "default": 256, "description": "Max počet tokenů v odpovědi" },
+                  "stream": { "type": "boolean", "default": false, "description": "Streamovat odpověď po tokenech" }
+                }
+              },
+              "examples": {
+                "simple": {
+                  "summary": "Jednoduchý dotaz",
+                  "value": {
+                    "model": "gpt-4o-mini",
+                    "messages": [
+                      { "role": "system", "content": "Jsi užitečný asistent. Odpovídej česky." },
+                      { "role": "user", "content": "Co je to REST API? Vysvětli ve 2 větách." }
+                    ]
+                  }
+                },
+                "low_temperature": {
+                  "summary": "Nízká teplota (deterministické)",
+                  "value": {
+                    "model": "gpt-4o-mini",
+                    "messages": [
+                      { "role": "system", "content": "Jsi přesný technický asistent." },
+                      { "role": "user", "content": "Jaký je rozdíl mezi HTTP metodami GET a POST?" }
+                    ],
+                    "temperature": 0.2,
+                    "max_tokens": 300
+                  }
+                },
+                "high_temperature": {
+                  "summary": "Vysoká teplota (kreativní)",
+                  "value": {
+                    "model": "gpt-4o",
+                    "messages": [
+                      { "role": "system", "content": "Jsi kreativní spisovatel. Piš barvitě a originálně." },
+                      { "role": "user", "content": "Napiš krátký příběh o robotovi, který se naučil vařit." }
+                    ],
+                    "temperature": 1.5,
+                    "max_tokens": 500
+                  }
+                },
+                "vision": {
+                  "summary": "Vision (obrázek v content)",
+                  "value": {
+                    "model": "gpt-4o",
+                    "messages": [
+                      {
+                        "role": "user",
+                        "content": [
+                          { "type": "text", "text": "Co vidíš na tomto obrázku? Popiš česky." },
+                          { "type": "image_url", "image_url": { "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/300px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" } }
+                        ]
+                      }
+                    ],
+                    "max_tokens": 300
+                  }
+                },
+                "conversation": {
+                  "summary": "Vícekroková konverzace",
+                  "value": {
+                    "model": "gpt-4o-mini",
+                    "messages": [
+                      { "role": "system", "content": "Jsi programátorský mentor. Odpovídej stručně česky." },
+                      { "role": "user", "content": "Co je to API?" },
+                      { "role": "assistant", "content": "API (Application Programming Interface) je rozhraní, přes které spolu komunikují dva programy." },
+                      { "role": "user", "content": "Dej mi konkrétní příklad." }
+                    ],
+                    "temperature": 0.7
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Úspěšná odpověď s vygenerovaným textem" }
+        }
+      }
+    },
+
+    "/v1/responses": {
+      "post": {
+        "tags": ["Responses"],
+        "summary": "Vytvoř response (agentní endpoint)",
+        "description": "Novější endpoint s podporou built-in tools (web search, file search, code interpreter, computer use, MCP). Doporučený pro nové projekty.",
+        "operationId": "createResponse",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["model", "input"],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "enum": ["gpt-5.4", "gpt-5.2", "gpt-4o", "gpt-4o-mini", "gpt-4.1", "o3", "o4-mini"],
+                    "default": "gpt-4o-mini"
+                  },
+                  "input": {
+                    "description": "Vstupní zpráva nebo pole zpráv (podporuje text i obrázky)",
+                    "oneOf": [
+                      { "type": "string", "example": "Jaký je dnes počasí v Praze?" },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "role": { "type": "string", "enum": ["user", "assistant", "system"] },
+                            "content": {
+                              "description": "Text (string) nebo pole content částí pro multimodální vstup",
+                              "oneOf": [
+                                { "type": "string" },
+                                {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": { "type": "string", "enum": ["input_text", "input_image"], "description": "Typ content části" },
+                                      "text": { "type": "string", "description": "Text (pro type=input_text)" },
+                                      "image_url": { "type": "string", "description": "URL obrázku nebo data:image/...;base64,... (pro type=input_image)" },
+                                      "file_id": { "type": "string", "description": "ID souboru nahraného přes Files API s purpose=vision (pro type=input_image)" },
+                                      "detail": { "type": "string", "enum": ["low", "high", "auto"], "default": "auto", "description": "Rozlišení obrázku: low = 512x512, high = plné, auto = model rozhodne" }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "instructions": {
+                    "type": "string",
+                    "description": "Systémové instrukce (obdoba system message v Chat Completions)"
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 2,
+                    "default": 1,
+                    "description": "Kreativita odpovědi (0 = deterministické, 2 = hodně kreativní)"
+                  },
+                  "max_output_tokens": {
+                    "type": "integer",
+                    "description": "Max počet tokenů v odpovědi"
+                  },
+                  "tools": {
+                    "type": "array",
+                    "description": "Built-in tools k použití",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": ["web_search", "file_search", "code_interpreter", "computer_use", "mcp"],
+                          "description": "Typ nástroje"
+                        }
+                      }
+                    },
+                    "example": [{ "type": "web_search" }]
+                  }
+                }
+              },
+              "examples": {
+                "simple": {
+                  "summary": "Jednoduchý dotaz",
+                  "value": {
+                    "model": "gpt-4o-mini",
+                    "input": "Řekni mi vtip o programátorech."
+                  }
+                },
+                "web_search": {
+                  "summary": "S web search",
+                  "value": {
+                    "model": "gpt-4o-mini",
+                    "input": "Jaký je aktuální kurz CZK/EUR?",
+                    "tools": [{ "type": "web_search" }]
+                  }
+                },
+                "low_temperature": {
+                  "summary": "S nízkou teplotou a instrukcemi",
+                  "value": {
+                    "model": "gpt-4o-mini",
+                    "input": "Přelož do angličtiny: Dnes je krásný den.",
+                    "instructions": "Jsi profesionální překladatel. Odpovídej pouze překladem, bez vysvětlení.",
+                    "temperature": 0.1,
+                    "max_output_tokens": 100
+                  }
+                },
+                "high_temperature": {
+                  "summary": "Kreativní generování (vysoká teplota)",
+                  "value": {
+                    "model": "gpt-4o",
+                    "input": "Vymysli 3 originální názvy pro mobilní aplikaci na sdílení receptů.",
+                    "instructions": "Buď kreativní a hravý. Názvy by měly být chytlavé a zapamatovatelné.",
+                    "temperature": 1.6,
+                    "max_output_tokens": 200
+                  }
+                },
+                "image_input": {
+                  "summary": "S obrázkem (vision)",
+                  "value": {
+                    "model": "gpt-4o",
+                    "input": [
+                      {
+                        "role": "user",
+                        "content": [
+                          { "type": "input_text", "text": "Co je na tomto obrázku? Popiš česky." },
+                          { "type": "input_image", "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/300px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "conversation": {
+                  "summary": "Vícekroková konverzace",
+                  "value": {
+                    "model": "gpt-4o-mini",
+                    "instructions": "Jsi učitel programování. Vysvětluj jednoduše česky.",
+                    "input": [
+                      { "role": "user", "content": "Co je to proměnná?" },
+                      { "role": "assistant", "content": "Proměnná je pojmenované místo v paměti, kam si program ukládá hodnoty." },
+                      { "role": "user", "content": "A jaký je rozdíl mezi let a const v JavaScriptu?" }
+                    ],
+                    "temperature": 0.5
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Úspěšná odpověď včetně výsledků tools" }
+        }
+      }
+    },
+
+    "/v1/audio/transcriptions": {
+      "post": {
+        "tags": ["Speech-to-Text"],
+        "summary": "Transkripce audia (Whisper / GPT-4o Transcribe)",
+        "description": "Přepíše audio soubor do textu. Podporuje whisper-1, gpt-4o-transcribe, gpt-4o-mini-transcribe a gpt-4o-transcribe-diarize (identifikace mluvčích). Max 25 MB.",
+        "operationId": "createTranscription",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file", "model"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Audio soubor (mp3, mp4, mpeg, mpga, m4a, wav, webm)"
+                  },
+                  "model": {
+                    "type": "string",
+                    "enum": ["whisper-1", "gpt-4o-transcribe", "gpt-4o-mini-transcribe", "gpt-4o-transcribe-diarize"],
+                    "default": "whisper-1",
+                    "description": "whisper-1 = $0.006/min, gpt-4o varianty = vyšší kvalita"
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "ISO-639-1 kód jazyka (např. 'cs' pro češtinu). Zvyšuje přesnost.",
+                    "example": "cs"
+                  },
+                  "response_format": {
+                    "type": "string",
+                    "enum": ["json", "text", "srt", "verbose_json", "vtt"],
+                    "default": "json",
+                    "description": "Formát výstupu. srt/vtt = titulky s časovými značkami."
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "Volitelný prompt pro navození stylu/kontextu (např. technické termíny)",
+                    "example": "Kubernetes, NestJS, PostgreSQL, Docker"
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "default": 0,
+                    "description": "Nižší = determinističtější"
+                  },
+                  "timestamp_granularities": {
+                    "type": "array",
+                    "items": { "type": "string", "enum": ["word", "segment"] },
+                    "description": "Podrobnost časových značek (jen s verbose_json)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Přepsaný text" }
+        }
+      }
+    },
+
+    "/v1/audio/translations": {
+      "post": {
+        "tags": ["Speech-to-Text"],
+        "summary": "Překlad audia do angličtiny",
+        "description": "Přepíše a přeloží audio soubor do angličtiny. Podporuje pouze whisper-1.",
+        "operationId": "createTranslation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file", "model"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Audio soubor"
+                  },
+                  "model": {
+                    "type": "string",
+                    "enum": ["whisper-1"],
+                    "default": "whisper-1"
+                  },
+                  "response_format": {
+                    "type": "string",
+                    "enum": ["json", "text", "srt", "verbose_json", "vtt"],
+                    "default": "json"
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "Prompt v angličtině pro navození kontextu"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Přeložený text v angličtině" }
+        }
+      }
+    },
+
+    "/v1/audio/speech": {
+      "post": {
+        "tags": ["Text-to-Speech"],
+        "summary": "Generování řeči z textu",
+        "description": "Převede text na mluvené audio. 13 vestavěných hlasů, podpora custom voices, streaming. Model gpt-4o-mini-tts umožňuje promptovat styl řeči.",
+        "operationId": "createSpeech",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["model", "input", "voice"],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "enum": ["gpt-4o-mini-tts", "tts-1", "tts-1-hd"],
+                    "default": "gpt-4o-mini-tts",
+                    "description": "gpt-4o-mini-tts = nejnovější, podporuje prompting stylu"
+                  },
+                  "input": {
+                    "type": "string",
+                    "description": "Text k přečtení",
+                    "example": "Ahoj, vítej na workshopu o OpenAI API."
+                  },
+                  "voice": {
+                    "type": "string",
+                    "enum": ["alloy", "ash", "ballad", "coral", "echo", "fable", "onyx", "nova", "sage", "shimmer", "verse", "marin", "cedar"],
+                    "default": "nova",
+                    "description": "Hlas. Pro nejlepší kvalitu doporučený marin nebo cedar."
+                  },
+                  "instructions": {
+                    "type": "string",
+                    "description": "Instrukce pro styl řeči (jen gpt-4o-mini-tts)",
+                    "example": "Mluv klidně a profesionálně, jako moderátor podcastu."
+                  },
+                  "response_format": {
+                    "type": "string",
+                    "enum": ["mp3", "opus", "aac", "flac", "wav", "pcm"],
+                    "default": "mp3"
+                  },
+                  "speed": {
+                    "type": "number",
+                    "minimum": 0.25,
+                    "maximum": 4.0,
+                    "default": 1.0,
+                    "description": "Rychlost řeči"
+                  }
+                }
+              },
+              "examples": {
+                "basic": {
+                  "summary": "Základní syntéza řeči",
+                  "value": {
+                    "model": "gpt-4o-mini-tts",
+                    "input": "Ahoj, vítej na workshopu o OpenAI API. Dnes se naučíme pracovat s různými endpointy.",
+                    "voice": "nova"
+                  }
+                },
+                "styled": {
+                  "summary": "S instrukcemi pro styl řeči",
+                  "value": {
+                    "model": "gpt-4o-mini-tts",
+                    "input": "Dnes máme pro vás skvělou novinku. Naše aplikace nyní podporuje hlasové příkazy!",
+                    "voice": "marin",
+                    "instructions": "Mluv nadšeně a energicky, jako moderátor ranní show."
+                  }
+                },
+                "slow_dictation": {
+                  "summary": "Pomalé diktování",
+                  "value": {
+                    "model": "gpt-4o-mini-tts",
+                    "input": "kubectl apply minus f deployment dot yaml",
+                    "voice": "cedar",
+                    "instructions": "Mluv pomalu a zřetelně, diktuj příkaz slovo po slovu.",
+                    "speed": 0.75
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Audio soubor (binary)", "content": { "audio/mpeg": {} } }
+        }
+      }
+    },
+
+    "/v1/images/generations": {
+      "post": {
+        "tags": ["Images"],
+        "summary": "Generování obrázků",
+        "description": "Vygeneruje obrázek z textového popisu pomocí gpt-image-1. Volitelně přijímá vstupní obrázky jako referenci.",
+        "operationId": "createImage",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["model", "prompt"],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "enum": ["gpt-image-1"],
+                    "default": "gpt-image-1"
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "Popis obrázku",
+                    "example": "Minimalistické logo pro aplikaci na zaznamenávání hlasových poznámek, pastelové barvy, čisté linie"
+                  },
+                  "image": {
+                    "type": "array",
+                    "description": "Vstupní obrázky jako reference (base64 nebo URL). Použij pro editaci, variace nebo stylový přenos.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": { "type": "string", "enum": ["base64", "url"], "description": "Typ zdroje obrázku" },
+                        "url": { "type": "string", "description": "URL obrázku (pro type=url)" },
+                        "base64": { "type": "string", "description": "Base64 zakódovaný obrázek (pro type=base64)" }
+                      }
+                    }
+                  },
+                  "input_fidelity": {
+                    "type": "string",
+                    "enum": ["low", "high"],
+                    "default": "low",
+                    "description": "Jak věrně zachovat detaily vstupních obrázků. high = lepší pro obličeje, loga, jemné detaily."
+                  },
+                  "n": { "type": "integer", "minimum": 1, "maximum": 10, "default": 1, "description": "Počet obrázků" },
+                  "size": {
+                    "type": "string",
+                    "enum": ["1024x1024", "1536x1024", "1024x1536", "auto"],
+                    "default": "1024x1024"
+                  },
+                  "quality": {
+                    "type": "string",
+                    "enum": ["low", "medium", "high"],
+                    "default": "medium"
+                  },
+                  "output_format": {
+                    "type": "string",
+                    "enum": ["png", "jpeg", "webp"],
+                    "default": "png",
+                    "description": "Formát výstupního obrázku"
+                  }
+                }
+              },
+              "examples": {
+                "basic": {
+                  "summary": "Základní generování",
+                  "value": {
+                    "model": "gpt-image-1",
+                    "prompt": "Minimalistické logo pro aplikaci na zaznamenávání hlasových poznámek, pastelové barvy, čisté linie",
+                    "size": "1024x1024",
+                    "quality": "medium"
+                  }
+                },
+                "high_quality_landscape": {
+                  "summary": "Vysoká kvalita, landscape",
+                  "value": {
+                    "model": "gpt-image-1",
+                    "prompt": "Fotorealistický západ slunce nad Karlovým mostem v Praze, zlatá hodinka, odraz ve Vltavě",
+                    "size": "1536x1024",
+                    "quality": "high"
+                  }
+                },
+                "multiple": {
+                  "summary": "Více variant najednou",
+                  "value": {
+                    "model": "gpt-image-1",
+                    "prompt": "Ikona pro mobilní aplikaci na počasí, flat design, modrá a bílá",
+                    "n": 3,
+                    "size": "1024x1024",
+                    "quality": "low"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "URL nebo base64 vygenerovaného obrázku" }
+        }
+      }
+    },
+
+    "/v1/images/edits": {
+      "post": {
+        "tags": ["Images"],
+        "summary": "Editace obrázků",
+        "description": "Úpravy existujícího obrázku podle textového popisu.",
+        "operationId": "editImage",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["image", "prompt", "model"],
+                "properties": {
+                  "image": { "type": "string", "format": "binary", "description": "Zdrojový obrázek (PNG, čtvercový, max 4 MB)." },
+                  "prompt": { "type": "string", "description": "Popis požadované úpravy" },
+                  "model": { "type": "string", "enum": ["dall-e-2"], "default": "dall-e-2" },
+                  "n": { "type": "integer", "minimum": 1, "maximum": 10, "default": 1, "description": "Počet obrázků" },
+                  "size": { "type": "string", "enum": ["256x256", "512x512", "1024x1024"], "default": "1024x1024" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Upravený obrázek" }
+        }
+      }
+    },
+
+    "/v1/embeddings": {
+      "post": {
+        "tags": ["Embeddings"],
+        "summary": "Vytvoř embedding",
+        "description": "Vygeneruje vektorovou reprezentaci textu. Použití: search, clustering, RAG, doporučování, klasifikace.",
+        "operationId": "createEmbedding",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["model", "input"],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "enum": ["text-embedding-3-small", "text-embedding-3-large"],
+                    "default": "text-embedding-3-small",
+                    "description": "small = levnější a rychlejší, large = přesnější (až 3072 dimenzí)"
+                  },
+                  "input": {
+                    "description": "Text nebo pole textů",
+                    "oneOf": [
+                      { "type": "string", "example": "OpenAI API workshop pro vývojáře" },
+                      { "type": "array", "items": { "type": "string" }, "example": ["první věta", "druhá věta"] }
+                    ]
+                  },
+                  "dimensions": {
+                    "type": "integer",
+                    "description": "Počet dimenzí výstupu (jen text-embedding-3-*). Menší = levnější storage.",
+                    "example": 256
+                  }
+                }
+              },
+              "examples": {
+                "single": {
+                  "summary": "Jeden text",
+                  "value": {
+                    "model": "text-embedding-3-small",
+                    "input": "OpenAI API workshop pro vývojáře"
+                  }
+                },
+                "batch": {
+                  "summary": "Dávka textů pro porovnání",
+                  "value": {
+                    "model": "text-embedding-3-small",
+                    "input": [
+                      "Jak vařit svíčkovou na smetaně",
+                      "Recept na tradiční český guláš",
+                      "Instalace Node.js na Linux"
+                    ]
+                  }
+                },
+                "reduced_dimensions": {
+                  "summary": "Menší dimenze (úspora storage)",
+                  "value": {
+                    "model": "text-embedding-3-large",
+                    "input": "Sémantické vyhledávání v dokumentech",
+                    "dimensions": 256
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Pole embedding vektorů" }
+        }
+      }
+    },
+
+    "/v1/models": {
+      "get": {
+        "tags": ["Models"],
+        "summary": "Výpis dostupných modelů",
+        "description": "Vrátí seznam všech modelů dostupných pro daný API klíč.",
+        "operationId": "listModels",
+        "responses": {
+          "200": { "description": "Seznam modelů" }
+        }
+      }
+    },
+
+    "/v1/models/{model_id}": {
+      "get": {
+        "tags": ["Models"],
+        "summary": "Detail modelu",
+        "description": "Vrátí informace o konkrétním modelu.",
+        "operationId": "retrieveModel",
+        "parameters": [
+          {
+            "name": "model_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "example": "gpt-4o-mini" },
+            "description": "ID modelu"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Detail modelu" }
+        }
+      }
+    }
+  }
+};
+
+SwaggerUIBundle({
+  spec: spec,
+  dom_id: '#swagger-ui',
+  deepLinking: true,
+  presets: [
+    SwaggerUIBundle.presets.apis,
+    SwaggerUIBundle.SwaggerUIStandalonePreset
+  ],
+  layout: "BaseLayout",
+  defaultModelsExpandDepth: -1,
+  docExpansion: "list",
+  tryItOutEnabled: true,
+  persistAuthorization: true
+});
+
+/* ── Audio playback fix ──────────────────────────────────────────────
+   Swagger UI creates <audio><source src="…endpoint URL…"></audio>
+   for audio/mpeg responses, but the browser can't GET a POST endpoint.
+   We intercept fetch, capture the binary blob, and patch the player. */
+(function () {
+  var audioBlobUrl = null;
+  var appliedUrl = null;
+
+  var origFetch = window.fetch;
+  window.fetch = function (input, init) {
+    var url = typeof input === 'string' ? input : (input && input.url ? input.url : '');
+    var isAudio = url.indexOf('/v1/audio/speech') !== -1;
+
+    return origFetch.apply(this, arguments).then(function (response) {
+      if (isAudio && response.ok) {
+        response.clone().blob().then(function (blob) {
+          if (blob.size > 0) {
+            if (audioBlobUrl) URL.revokeObjectURL(audioBlobUrl);
+            audioBlobUrl = URL.createObjectURL(blob);
+            appliedUrl = null;
+            patchPlayers();
+          }
+        });
+      }
+      return response;
+    });
+  };
+
+  function patchPlayers() {
+    [100, 500, 1200, 2500].forEach(function (delay) {
+      setTimeout(function () {
+        if (!audioBlobUrl || audioBlobUrl === appliedUrl) return;
+        document.querySelectorAll('audio').forEach(function (audio) {
+          var src = audio.querySelector('source');
+          if (src) {
+            src.src = audioBlobUrl;
+            audio.controls = true;
+            audio.load();
+            appliedUrl = audioBlobUrl;
+          }
+        });
+      }, delay);
+    });
+  }
+})();
+
+/* ── Image preview for /v1/images/* ──────────────────────────────────
+   The API returns JSON with b64_json or url fields.  We intercept the
+   response, extract images and inject <img> previews above the JSON. */
+(function () {
+  var pendingImages = null;
+  var pendingEndpoint = null;
+
+  var origFetch = window.fetch;
+  window.fetch = function (input, init) {
+    var url = typeof input === 'string' ? input : (input && input.url ? input.url : '');
+    var isImageGen = url.indexOf('/v1/images/generations') !== -1;
+    var isImageEdit = url.indexOf('/v1/images/edits') !== -1;
+
+    return origFetch.apply(this, arguments).then(function (response) {
+      if ((isImageGen || isImageEdit) && response.ok) {
+        pendingEndpoint = isImageGen ? 'createImage' : 'editImage';
+        response.clone().json().then(function (json) {
+          var imgs = [];
+          ((json && json.data) || []).forEach(function (item) {
+            if (item.b64_json) imgs.push('data:image/png;base64,' + item.b64_json);
+            else if (item.url) imgs.push(item.url);
+          });
+          if (imgs.length) {
+            pendingImages = imgs;
+            injectPreviews();
+          }
+        }).catch(function () {});
+      }
+      return response;
+    });
+  };
+
+  function injectPreviews() {
+    [200, 800, 1500, 3000].forEach(function (delay) {
+      setTimeout(function () {
+        if (!pendingImages || !pendingEndpoint) return;
+        /* Find the response body <pre> inside the right operation block */
+        var opBlock = document.querySelector(
+          '.opblock[id*="' + pendingEndpoint + '"] .responses-wrapper') ||
+          document.querySelector('.opblock.is-open .responses-wrapper');
+        if (!opBlock) return;
+        /* Remove any previously injected preview */
+        var old = opBlock.querySelector('.img-preview-container');
+        if (old) old.remove();
+        /* Build preview container */
+        var container = document.createElement('div');
+        container.className = 'img-preview-container';
+        container.style.cssText = 'padding:12px 20px;display:flex;flex-wrap:wrap;gap:12px;';
+        pendingImages.forEach(function (src) {
+          var img = document.createElement('img');
+          img.src = src;
+          img.style.cssText = 'max-width:512px;max-height:512px;border-radius:8px;border:1px solid #ddd;cursor:pointer;';
+          img.title = 'Klikni pro otevření v nové záložce';
+          img.onclick = function () { window.open(src, '_blank'); };
+          container.appendChild(img);
+        });
+        /* Insert before the response body code block */
+        var responseBody = opBlock.querySelector('.responses-inner');
+        if (responseBody) {
+          responseBody.insertBefore(container, responseBody.firstChild);
+          pendingImages = null;
+        }
+      }, delay);
+    });
+  }
+})();
+</script>
+</body>
+</html>
