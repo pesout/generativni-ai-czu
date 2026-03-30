@@ -13,3 +13,7 @@ Stručné shrnutí jednotlivých cvičení – důležité příkazy, šablony p
 ## Ukázkový projekt
 
 Během cvičení tvořím projekt Dayvoice, aplikaci pro hlasové poznámky s automatickým AI přepisem, chytrým shrnutím a denními přehledy. Najdete ji na [github.com/pesout/dayvoice](https://github.com/pesout/dayvoice).
+
+## Materiály z přednášek
+
+[github.com/Alzpeta/AIBR_Prednasky](https://github.com/Alzpeta/AIBR_Prednasky)

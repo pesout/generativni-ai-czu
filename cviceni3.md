@@ -1,9 +1,5 @@
 # III. Prompt engineering, context engineering
 
-## Výukový materiál od Alžběty Pokorné
-
-- [github.com/Alzpeta/prompt_engineering](https://github.com/Alzpeta/prompt_engineering)
-
 ## Porovnávací aplikace se dvěma okny
 
 - [http://aibr.pesout.net/dual-prompt.php](http://aibr.pesout.net/dual-prompt.php)
