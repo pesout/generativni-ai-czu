@@ -1,7 +1,7 @@
 title: "Generativní AI"
 description: "Materiály ke cvičením předmětu Generativní AI (AI Bridge, KII PEF ČZU)"
 url: "https://pesout.github.io"
-baseurl: "/gen-ai"
+baseurl: "/generativni-ai-czu"
 
 theme: minima
 
