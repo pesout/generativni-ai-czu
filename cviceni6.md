@@ -249,9 +249,7 @@ Přidej do docker-compose.yml službu Traefik jako reverse proxy:
 
 2. Uprav služby frontend a backend:
    - přidej Traefik labels pro směrování
-   - frontend dostupný na: <moje-subdomena>.aibr.cz
-   - backend dostupný na: <moje-subdomena>.aibr.cz/api
-     (nebo api.<moje-subdomena>.aibr.cz -- zvol vhodný přístup dle projektu)
+   - frontend i backend dostupný podle konfigurace projektu
    - odeber mapování portů na host (porty budou dostupné jen přes Traefik)
 
 3. Ujisti se, že:
@@ -275,9 +273,8 @@ Poté ověř:
 1. Všechny kontejnery běží (docker ps)
 2. Žádný kontejner se nerestartuje v cyklu (zkontroluj uptime)
 3. Logy neobsahují chyby (docker logs pro každou službu)
-4. Frontend odpovídá na HTTPS (curl -I https://<moje-subdomena>.aibr.cz)
-5. Backend API odpovídá (curl https://<moje-subdomena>.aibr.cz/api)
-6. HTTP automaticky přesměrovává na HTTPS
+4. Frontend i backend odpovídá na HTTPS (curl -I)
+5. HTTP automaticky přesměrovává na HTTPS
 
 Pokud něco nefunguje, zjisti příčinu z logů a oprav.
 ```
@@ -314,7 +311,7 @@ Poté přidej do gitu všechny nové a změněné soubory týkající se nasazen
 Commitni s popisnou commit message a pushni na GitHub.
 ```
 
-> **Poznámka:** Na reálných projektech se z produkčního serveru nepushuje. Změny jdou opačným směrem -- vývojář pushne do repozitáře a CI/CD pipeline automaticky nasadí na server. Ruční push ze serveru děláme jen v rámci kurzu, abychom si nechali Docker konfiguraci uloženou v gitu.
+> **Poznámka:** Na reálných projektech se z produkčního serveru nepushuje. Změny jdou opačným směrem -- vývojář pushne do repozitáře a CI/CD pipeline automaticky nasadí na server. Push ze serveru děláme jen v rámci kurzu, protože je jednodušší generovat Docker konfiguraci přímo na serveru a zároveň ji chceme mít uloženou v gitu.
 
 ---
 
