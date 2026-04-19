@@ -10,6 +10,7 @@ Stručné shrnutí jednotlivých cvičení – důležité příkazy, šablony p
 4. [Integrace LLM API a chatbot](cviceni4.md) -- abstrakční vrstva pro LLM, OpenAI API, implementace chatbotu
 5. [Praktická práce s LLM API](cviceni5.md) -- interaktivní zkoušení OpenAI API endpointů přes Swagger UI
 6. [Nasazení aplikace -- Docker na VPS](cviceni6.md) -- konfigurace serveru, Docker, Traefik, HTTPS, nasazení na subdoménu
+7. [Úvod do n8n, instalace a první workflow](cviceni7.md) -- VS Code Remote-SSH, instalace n8n v Dockeru vedle aplikace, první test workflow
 
 ## Ukázkový projekt
 
