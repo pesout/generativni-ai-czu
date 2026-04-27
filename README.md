@@ -11,6 +11,7 @@ Stručné shrnutí jednotlivých cvičení – důležité příkazy, šablony p
 5. [Praktická práce s LLM API](cviceni5.md) -- interaktivní zkoušení OpenAI API endpointů přes Swagger UI
 6. [Nasazení aplikace -- Docker na VPS](cviceni6.md) -- konfigurace serveru, Docker, Traefik, HTTPS, nasazení na subdoménu
 7. [Úvod do n8n, instalace a první workflow](cviceni7.md) -- VS Code Remote-SSH, instalace n8n v Dockeru vedle aplikace, první test workflow
+8. [n8n workflows, integrace s aplikací a MCP servery](cviceni8.md) -- ukázkové workflows, kontaktní formulář napojený na n8n přes Codex, third-party i vlastní MCP server
 
 ## Ukázkový projekt
 
