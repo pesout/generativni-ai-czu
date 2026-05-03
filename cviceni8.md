@@ -282,47 +282,9 @@ Po dokončení vyzkoušejte alespoň jeden z navržených promptů. Sledujte, ja
 
 ---
 
-## (Volitelně) Vlastní MCP server
+## Další zamyšlení -- integrace OpenClaw (nebo podobné alternativy)
 
-Skutečná síla MCP je v tom, že si vlastní MCP server postavíte sami a vystavíte přes něj funkce své aplikace nebo svá data.
-
-Tato implementace je také pouze příklad. Zvolte si vlastní podle potřeb vaší aplikace. Pro ukázku jsem zvolil generátor českých rodných čísel.
-
-### 10) Prompt -- vlastní MCP
-
-Lokálně:
-
-```bash
-mkdir -p ~/projects/mcp-rc-generator
-cd ~/projects/mcp-rc-generator
-codex
-```
-
-Prompt:
-
-```
-V aktuálním adresáři postav malý MCP server, který generuje validní
-česká rodná čísla. Použij oficiální MCP SDK a stdio transport (jazyk
-zvol podle toho, co se hodí -- ideálně Node.js / TypeScript).
-
-Server vystaví jeden tool, kterým si vyžádám nové RČ. Volitelně mu
-pošlu datum narození a pohlaví, jinak je vyber náhodně. Výsledek musí
-být platné české RČ se správným kontrolním číslem.
-
-Po hotovém kódu:
-1. Zaregistruj MCP server v Codex CLI (lokálně)
-2. Otestuj, že se Codex k němu připojí a tool je dostupný
-3. Navrhni mi 2 prompty, kterými si MCP vyzkouším -- jeden bez
-   parametrů, jeden s konkrétním datem nebo s pohlavím
-```
-
-> **Pro vlastní práci doma:** zkuste si napsat MCP, který vystaví funkce nebo data **vaší aplikace** (např. `list_users`, `create_order`, `search_products` nad vaším backendem). Codex pak s aplikací pracuje, jako by ji znal zevnitř.
-
----
-
-## Další zamyšlení – integrace OpenClaw (nebo podobné alternativy)
-
-Tématem k zamyšlení do příště jsou osobní AI agenti, kteří běží trvale na vašem počítači (nebo VPS) a mluví s vámi přes Telegram, WhatsApp, Discord a další chaty. Mají perzistentní paměť, ovládají soubory, prohlížeč i příkazovou řádku.
+Tématem k zamyšlení do [cvičení 9](cviceni9.md) jsou osobní AI agenti, kteří běží trvale na vašem počítači (nebo VPS) a mluví s vámi přes Telegram, WhatsApp, Discord a další chaty. Mají perzistentní paměť, ovládají soubory, prohlížeč i příkazovou řádku.
 
 - [**OpenClaw**](https://openclaw.ai) -- open-source agent, lokálně na Mac/Windows/Linux, 100+ skillů, libovolný LLM (Claude, OpenAI, lokální).
 - [**NanoClaw**](https://nanoclaw.dev) -- bezpečnější odlehčená alternativa OpenClaw, každý agent v izolovaném Docker kontejneru, postavená nad Anthropic Claude Agent SDK.
@@ -342,5 +304,4 @@ Po dokončení tohoto cvičení byste měli mít:
 3. Integrované workflow v rámci vaší aplikace
 4. Aktualizovaný `~/AGENTS.md`
 5. Funkční third-party MCP server v Codexu a osahaný koncept MCP
-6. (Volitelně) Vlastní MCP pro vaše potřeby
 
