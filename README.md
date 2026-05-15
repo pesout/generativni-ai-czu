@@ -14,6 +14,7 @@ Stručné shrnutí jednotlivých cvičení – důležité příkazy, šablony p
 8. [n8n workflows, integrace s aplikací a MCP servery](cviceni8.md) -- ukázkové workflows, kontaktní formulář napojený na n8n přes Codex, third-party MCP server
 9. [Vlastní MCP server a osobní AI agenti](cviceni9.md) -- vlastní MCP, instalace OpenClaw na VPS, propojení s Telegramem, alternativy
 10. [Vlastní AI model na serveru](cviceni10.md) -- výběr modelu z Hugging Face, lokální nasazení Ollama + Open WebUI na VPS
+11. [Vlastní RAG systém s vektorovou databází](cviceni11.md) -- Qdrant + Chainlit + OpenAI embeddings na VPS, vlastní dokumenty s citacemi
 
 ## Ukázkový projekt
 
